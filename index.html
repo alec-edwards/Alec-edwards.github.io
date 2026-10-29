@@ -13,146 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Spectral:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<style>
-  /* ---------- Tokens ---------- */
-  :root {
-    --mist:   #EEF2F0;   /* page: cold Atlantic morning */
-    --surface:#F7F9F8;
-    --ink:    #1C2B26;   /* deep kelp-forest green, used as "black" */
-    --muted:  #4E605A;
-    --rule:   #C6D2CD;
-    --stipe:  #8A6A2F;   /* Ecklonia stipe bronze: the one accent */
-    --slate:  #2F5560;   /* Benguela slate: links */
-    --todo-bg:#FFF1C9;
-    --todo-ink:#6B4E00;
-    --measure: 66ch;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --mist:#121C19; --surface:#18241F; --ink:#E2E9E5; --muted:#A2B3AC;
-      --rule:#2E3F39; --stipe:#C9A35E; --slate:#8CC0CC;
-      --todo-bg:#3A3015; --todo-ink:#F2D88A;
-    }
-  }
-  :root[data-theme="dark"] {
-    --mist:#121C19; --surface:#18241F; --ink:#E2E9E5; --muted:#A2B3AC;
-    --rule:#2E3F39; --stipe:#C9A35E; --slate:#8CC0CC;
-    --todo-bg:#3A3015; --todo-ink:#F2D88A;
-  }
-
-  /* ---------- Base ---------- */
-  *, *::before, *::after { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-  body {
-    margin: 0;
-    background: var(--mist);
-    color: var(--ink);
-    font-family: "Spectral", Georgia, serif;
-    font-size: 1.125rem;
-    line-height: 1.62;
-    font-feature-settings: "kern", "liga", "onum";
-  }
-  h1, h2, h3, nav, .meta, .btn {
-    font-family: "Familjen Grotesk", system-ui, sans-serif;
-  }
-  a { color: var(--slate); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
-  a:hover { text-decoration-thickness: 2px; }
-  :focus-visible { outline: 2px solid var(--stipe); outline-offset: 3px; border-radius: 2px; }
-  p { margin: 0 0 1em; max-width: var(--measure); }
-  em { font-style: italic; }
-
-  .wrap { max-width: 68rem; margin: 0 auto; padding: 0 1rem; }
-  @media (min-width: 48rem) { .wrap { padding: 0 2.5rem; } }
-
-  /* ---------- Nav ---------- */
-  .top {
-    display: flex; justify-content: space-between; align-items: baseline;
-    gap: 1rem; padding: 1.25rem 0; flex-wrap: wrap;
-  }
-  .top .name { font-weight: 700; font-size: 1.05rem; color: var(--ink); text-decoration: none; }
-  nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; margin: 0; padding: 0; }
-  nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; font-weight: 500; }
-  nav a:hover { color: var(--ink); }
-
-  /* ---------- Hero: the one bold element ---------- */
-  .hero {
-    display: grid; grid-template-columns: 1fr; gap: 1rem;
-    padding: 2.5rem 0 3.5rem; border-bottom: 1px solid var(--rule);
-    position: relative;
-  }
-  @media (min-width: 48rem) {
-    .hero { grid-template-columns: 1fr 13rem; align-items: end; padding: 4.5rem 0 4.5rem; }
-  }
-  .hero h1 {
-    font-size: clamp(3rem, 11vw, 7.25rem);
-    line-height: 0.92; letter-spacing: -0.035em; font-weight: 600;
-    margin: 0 0 1.75rem;
-  }
-  .hero .role {
-    font-family: "Familjen Grotesk", system-ui, sans-serif;
-    font-size: clamp(1.15rem, 2.4vw, 1.45rem); font-weight: 500;
-    color: var(--ink); margin: 0 0 1rem; max-width: 42ch; line-height: 1.3;
-  }
-  .hero .lead { color: var(--muted); max-width: 54ch; margin: 0; }
-  .kelp { width: 100%; max-width: 13rem; height: auto; justify-self: end; color: var(--stipe); }
-  @media (max-width: 47.99rem) {
-    .kelp { position: absolute; right: 0; top: 1rem; width: 5.5rem; opacity: 0.5; pointer-events: none; }
-    .hero h1, .hero .role, .hero .lead { position: relative; }
-  }
-  .kelp path, .kelp ellipse { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; }
-  .kelp .draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: grow 2.4s cubic-bezier(.3,.6,.2,1) forwards; }
-  .kelp .d2 { animation-delay: 1.1s; animation-duration: 1.6s; }
-  .kelp .d3 { animation-delay: 1.3s; animation-duration: 1.7s; }
-  .kelp .d4 { animation-delay: 1.5s; animation-duration: 1.6s; }
-  @keyframes grow { to { stroke-dashoffset: 0; } }
-  @media (prefers-reduced-motion: reduce) { .kelp .draw { animation: none; stroke-dashoffset: 0; } }
-
-  /* ---------- Sections: heading in a margin column ---------- */
-  section { padding: 3rem 0; border-bottom: 1px solid var(--rule); }
-  section:last-of-type { border-bottom: 0; }
-  @media (min-width: 48rem) {
-    section { display: grid; grid-template-columns: 12rem 1fr; gap: 2.5rem; padding: 3.75rem 0; }
-  }
-  section > h2 {
-    font-size: 1.15rem; font-weight: 600; margin: 0 0 1.25rem; color: var(--stipe);
-    letter-spacing: -0.01em;
-  }
-  @media (min-width: 48rem) { section > h2 { margin: 0.25rem 0 0; } }
-
-  /* ---------- Entries (experience, education) ---------- */
-  .entries { list-style: none; margin: 0; padding: 0; }
-  .entries > li { padding: 0 0 1.75rem; }
-  .entries > li + li { border-top: 1px solid var(--rule); padding-top: 1.5rem; }
-  .entries h3 { font-size: 1.2rem; font-weight: 600; margin: 0; line-height: 1.3; }
-  .meta { color: var(--muted); font-size: 0.95rem; margin: 0.15rem 0 0.6rem; }
-  .entries p { margin-bottom: 0.5em; }
-
-  /* ---------- Outputs ---------- */
-  .outputs h3 { font-size: 1.05rem; font-weight: 600; margin: 0 0 0.6rem; }
-  .outputs h3:not(:first-child) { margin-top: 2rem; }
-  .refs { margin: 0; padding: 0; list-style: none; }
-  .refs li { padding-left: 1.5rem; text-indent: -1.5rem; margin-bottom: 0.75rem; max-width: var(--measure); }
-
-  /* ---------- Skills ---------- */
-  .skills { display: grid; grid-template-columns: 1fr; gap: 1.25rem 2.5rem; margin: 0; }
-  @media (min-width: 40rem) { .skills { grid-template-columns: 1fr 1fr; } }
-  .skills dt { font-family: "Familjen Grotesk", system-ui, sans-serif; font-weight: 600; }
-  .skills dd { margin: 0.15rem 0 0; color: var(--muted); }
-
-  /* ---------- Contact ---------- */
-  .contact-list { list-style: none; margin: 0; padding: 0; font-size: 1.25rem; }
-  .contact-list li { margin-bottom: 0.4rem; }
-
-  footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.9rem; font-family: "Familjen Grotesk", system-ui, sans-serif; }
-
-  /* ---------- Draft markers: remove all before publishing ---------- */
-  .todo {
-    background: var(--todo-bg); color: var(--todo-ink);
-    border: 1px dashed currentColor; border-radius: 3px;
-    padding: 0 0.3em; font-family: "Familjen Grotesk", system-ui, sans-serif; font-size: 0.85em;
-  }
-</style>
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
 <div class="wrap">
@@ -162,10 +23,10 @@
     <nav aria-label="Sections">
       <ul>
         <li><a href="#about">About</a></li>
+        <li><a href="#research">Research</a></li>
         <li><a href="#experience">Experience</a></li>
-        <li><a href="#education">Education</a></li>
         <li><a href="#outputs">Publications</a></li>
-        <li><a href="#speaking">Speaking</a></li>
+        <li><a href="#writing">Writing</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
@@ -191,13 +52,87 @@
       </svg>
     </div>
 
+    <div class="photos" aria-label="Photographs">
+      <figure><img src="img/presenting-us-biostimulant-summit.jpg" alt="Alec Edwards presenting at a lectern beside a projected slide" width="1280" height="960"><figcaption>Speaking at the US Biostimulant Summit, 2025</figcaption></figure>
+      <figure><img src="img/citrus-sampling.jpg" alt="Alec Edwards sampling leaves in a citrus orchard" width="1600" height="901" loading="lazy"><figcaption>Sampling a citrus trial, 2024</figcaption></figure>
+      <figure><img src="img/lettuce-salinas.jpg" alt="Alec Edwards kneeling in a lettuce field with mountains behind" width="1600" height="900" loading="lazy"><figcaption>Lettuce, Salinas Valley, California</figcaption></figure>
+      <figure><img src="img/pot-trial.jpg" alt="Alec Edwards crouching beside potted plants in an outdoor trial" width="1219" height="812" loading="lazy"><figcaption>Setting up a pot trial</figcaption></figure>
+      <figure><img src="img/wheat-field.jpg" alt="Alec Edwards kneeling in a young wheat field" width="720" height="1280" loading="lazy"><figcaption>Wheat, 2025</figcaption></figure>
+    </div>
+
     <section id="about" aria-labelledby="about-h">
       <h2 id="about-h">About</h2>
       <div>
+        <img class="portrait" src="img/headshot.jpg" alt="Portrait of Alec Edwards" width="1280" height="853" loading="lazy">
         <p>I am a plant pathologist by training. Both my MSc and PhD at the University of the Free State dealt with Sclerotinia stem rot in soybean, from salicylic acid and the root microbiome to native microbial consortia tested in the field over two seasons.</p>
         <p>At Afrikelp I lead the applied science behind the company's <em>Ecklonia maxima</em> seaweed products. I design and run replicated trials with contract research organisations, universities and partners in seven countries, analyse the data, and work on the modes of action behind crop responses. I also support commercial teams and present the work to growers, advisors and scientific audiences.</p>
-        <p>Before Afrikelp I worked in environmental science, running microbial bioreactors that treat contaminated mine water in South Africa and Lesotho. Since 2020 I have also developed and taught accredited agricultural courses and trained emerging farmers, including a permaculture programme that helped 40 households in Edenville, Free State, set up their own vegetable gardens. I co-supervised two Honours projects and am a member of the South African Society for Plant Pathology.</p>
+        <p>Before Afrikelp I worked in environmental science, running microbial bioreactors that treat contaminated mine water in South Africa and Lesotho. Since 2020 I have also developed and taught accredited agricultural courses and trained emerging farmers, including a permaculture programme that helped 40 households in Edenville, Free State, set up their own vegetable gardens. I co-supervised two Honours projects and am a member of the Southern African Society for Plant Pathology.</p>
         <p>I grew up partly on the Northern Cape's West Coast, which is where I fell for the natural world. Outside work I spend time in nature, look after my bonsai and grow gourmet mushrooms.</p>
+      </div>
+    </section>
+
+    <section id="research" aria-labelledby="research-h">
+      <h2 id="research-h">Research</h2>
+      <div>
+        <p class="intro">A biostimulant response only matters if it shows up in the field. My work starts with replicated trials and then zooms in, plant to cell to molecule, to understand why a crop responded, or why it didn't.</p>
+        <div class="pipeline">
+          <ol class="tiers">
+            <li><span class="node" aria-hidden="true"></span><div><span class="scale">Field</span><span class="what">Yield, quality, return on investment, nutrient and water use efficiency</span><span class="how">Replicated RCBD and factorial trials, run in-house and with contract research organisations and universities</span></div></li>
+            <li><span class="node" aria-hidden="true"></span><div><span class="scale">Whole plant</span><span class="what">Canopy, roots, chlorophyll, NDVI, photosynthesis, stress injury</span><span class="how">Greenhouse and growth-room work, including abiotic stress and nutrient limitation</span></div></li>
+            <li><span class="node" aria-hidden="true"></span><div><span class="scale">Tissue and cell</span><span class="what">Plant hormones, enzymes, pathogen load, root microbiome</span><span class="how">Hormone analysis, enzyme assays, quantitative PCR and sequencing</span></div></li>
+            <li><span class="node" aria-hidden="true"></span><div><span class="scale">Molecules</span><span class="what">Metabolome, proteome and the pathways that link them</span><span class="how">Metabolomic and proteomic studies with university partners, read against the field results</span></div></li>
+          </ol>
+          <aside class="rail" aria-label="Analysis across all scales">
+            <h3>Statistics, at every scale</h3>
+            <ul>
+              <li>Mixed models in R, with blocks, sites and seasons as random effects</li>
+              <li>Mean separation and comparisons against the untreated control</li>
+              <li>Effect sizes and confidence intervals, not just p-values</li>
+              <li>Win rates, sign tests and pooled effects across trials</li>
+            </ul>
+          </aside>
+        </div>
+
+        <h3 class="subhead" id="crops-h">Crops and depth of work</h3>
+        <div class="matrix-wrap" role="region" aria-labelledby="crops-h" tabindex="0">
+          <table class="matrix">
+            <thead>
+              <tr><th scope="col"><span class="sr">Crop</span></th><th scope="col">Field trials</th><th scope="col">Physiology and quality</th><th scope="col">Plant health and microbes</th><th scope="col">Omics</th></tr>
+            </thead>
+            <tbody>
+              <tr class="grp"><th colspan="5" scope="colgroup">Fruit, nut and specialty crops</th></tr>
+              <tr><th scope="row">Table grapes</th><td><span class="dot main" title="Main focus"></span></td><td><span class="dot on" title="Worked on"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td></tr>
+              <tr><th scope="row">Almonds</th><td><span class="dot main" title="Main focus"></span></td><td><span class="dot on" title="Worked on"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td></tr>
+              <tr><th scope="row">Blueberries</th><td><span class="dot on" title="Worked on"></span></td><td><span class="dot on" title="Worked on"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td></tr>
+              <tr><th scope="row">Strawberries</th><td><span class="dot on" title="Worked on"></span></td><td><span class="dot on" title="Worked on"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td></tr>
+              <tr><th scope="row">Stone fruit</th><td><span class="dot on" title="Worked on"></span></td><td><span class="dot on" title="Worked on"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td></tr>
+              <tr><th scope="row">Citrus</th><td><span class="dot"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td><td><span class="dot on" title="Worked on"></span></td></tr>
+              <tr><th scope="row">Hops</th><td><span class="dot on" title="Worked on"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td></tr>
+              <tr><th scope="row">Pecans</th><td><span class="dot"></span></td><td><span class="dot"></span></td><td><span class="dot on" title="Worked on"></span></td><td><span class="dot"></span></td></tr>
+              <tr class="grp"><th colspan="5" scope="colgroup">Field crops</th></tr>
+              <tr><th scope="row">Soybean</th><td><span class="dot main" title="Main focus"></span></td><td><span class="dot on" title="Worked on"></span></td><td><span class="dot main" title="Main focus"></span></td><td><span class="dot"></span></td></tr>
+              <tr><th scope="row">Wheat</th><td><span class="dot on" title="Worked on"></span></td><td><span class="dot on" title="Worked on"></span></td><td><span class="dot"></span></td><td><span class="dot"></span></td></tr>
+              <tr><th scope="row">Sunflower</th><td><span class="dot"></span></td><td><span class="dot"></span></td><td><span class="dot on" title="Worked on"></span></td><td><span class="dot"></span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="legend"><span><i class="dot main"></i>Main focus</span><span><i class="dot on"></i>Worked on</span><span><i class="dot"></i>Not yet</span></p>
+
+        <h3 class="subhead" id="map-h">Where the work has run</h3>
+        <figure class="figure">
+          <div id="map" role="img" aria-label="World map highlighting South Africa, the United States, Mexico, Brazil, Argentina, Malaysia, Australia and Lesotho"></div>
+          <ul class="place-list">
+            <li><i class="swatch" style="background:var(--stipe)"></i>South Africa (home base)</li>
+            <li><i class="swatch" style="background:var(--leaf)"></i>United States</li>
+            <li><i class="swatch" style="background:var(--leaf)"></i>Mexico</li>
+            <li><i class="swatch" style="background:var(--leaf)"></i>Brazil</li>
+            <li><i class="swatch" style="background:var(--leaf)"></i>Argentina</li>
+            <li><i class="swatch" style="background:var(--leaf)"></i>Malaysia</li>
+            <li><i class="swatch" style="background:var(--leaf)"></i>Australia</li>
+            <li><i class="swatch" style="background:var(--slate)"></i>Lesotho (mine-water remediation)</li>
+          </ul>
+          <figcaption>Countries with current Afrikelp trial programmes, plus earlier environmental work in Lesotho.</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -293,6 +228,7 @@
 
         <h3>Earlier research presentations</h3>
         <ul class="refs">
+          <li><span class="todo">talk title</span> 53rd SASPP Congress, Clarens, January 2024. Plant Health Products Award for the best oral presentation on biological control.</li>
           <li>Edwards, A., Swart, W.J. and Rothmann, L.A. <em>Characterising plant health promoting microorganisms and potential biological control agents from the soybean microbiome.</em> 52nd SASPP Congress, August 2022; Botany and Plant Biotechnology Symposium, University of Johannesburg, November 2022 (best PhD presentation); SAAWK Student Symposium, November 2022 (second-best PhD presentation).</li>
           <li>Edwards, A., Swart, W.J. and Nyoni, M. <em>Characterising the effect of salicylic acid application on Sclerotinia stem rot in soybean.</em> 52nd SASPP Congress, August 2022; SAAWK Student Symposium, November 2022.</li>
           <li>Three Minute Thesis, University of the Free State, 2022. Best PhD presentation, Faculty of Natural and Agricultural Sciences; third in the institutional final.</li>
@@ -309,6 +245,18 @@
       </div>
     </section>
 
+    <section id="writing" aria-labelledby="writing-h">
+      <h2 id="writing-h">Writing</h2>
+      <div>
+        <ul class="posts">
+          <li><h3><a href="blog/reading-a-biostimulant-trial.html">Formulation or function? How to read a biostimulant trial</a></h3><p>Seven questions that separate a result you can act on from a demonstration plot.</p></li>
+          <li><h3><a href="blog/alpine-soil-microbes.html">What soil microbes reveal about the health of mountain soils</a></h3><p>A plain-language summary of our 2026 <em>Koedoe</em> paper on the Maloti–Drakensberg summit soils.</p></li>
+          <li><h3><a href="blog/lessons-from-a-phd-on-sclerotinia.html">From the lab bench to the trial plot: lessons from a PhD on Sclerotinia stem rot</a></h3><p>What five years of chasing a soybean disease taught me about applied research.</p></li>
+        </ul>
+        <p><a href="blog/">All writing</a></p>
+      </div>
+    </section>
+
     <section id="speaking" aria-labelledby="speak-h">
       <h2 id="speak-h">Speaking</h2>
       <div>
@@ -319,6 +267,10 @@
           <li><h3>From bud to shelf life: seaweed extracts in perennial fruit crops</h3><p>A season in table grapes, blueberries, almonds and hops, separating replicated evidence from descriptive results. For fruit growers, packhouse and quality staff.</p></li>
         </ul>
         <p>For speaker biographies or bookings, <a href="#contact">get in touch</a>.</p>
+        <figure class="figure inline-photo">
+          <img src="img/saspp-award-2024.jpg" alt="Alec Edwards holding the SASPP biological control trophy and certificate with three colleagues" width="1049" height="728" loading="lazy">
+          <figcaption>Receiving the SASPP Plant Health Products Award for the best oral presentation on biological control, Clarens, 2024.</figcaption>
+        </figure>
       </div>
     </section>
 
@@ -332,7 +284,7 @@
         <div><dt>Bioremediation</dt><dd>Microbial bioreactors for mine water, phytoremediation and biochar</dd></div>
         <div><dt>Teaching and communication</dt><dd>Lecturing, digital course content, grower and partner training, presentations</dd></div>
         <div><dt>Languages</dt><dd>English and Afrikaans</dd></div>
-        <div><dt>Awards</dt><dd>Best PhD presentation (UJ, 2022), best PhD Three Minute Thesis in faculty and third overall (UFS, 2022), best MSc presentation (UJ, 2019), best ePortfolio and best presenter (UFS, 2021), best marker (UFS, 2020)</dd></div>
+        <div><dt>Awards</dt><dd>Best oral presentation on biological control (SASPP, 2024), best PhD presentation (UJ, 2022), best PhD Three Minute Thesis in faculty and third overall (UFS, 2022), best MSc presentation (UJ, 2019), best ePortfolio and best presenter (UFS, 2021), best marker (UFS, 2020)</dd></div>
       </dl>
     </section>
 
@@ -351,6 +303,30 @@
 <script>
   // Keep the copyright year current
   document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<script>
+  // World map: countries coloured by type of work (ISO 3166 numeric codes)
+  (function () {
+    var el = document.getElementById('map');
+    if (!el || !window.d3 || !window.topojson) return;
+    var home = ['710'], earlier = ['426'],
+        trials = ['840', '484', '076', '032', '458', '036'];
+    d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(function (world) {
+      var w = 960, h = 470;
+      var land = topojson.feature(world, world.objects.countries);
+      land.features = land.features.filter(function (f) { return f.id !== '010'; }); // drop Antarctica
+      var proj = d3.geoNaturalEarth1().fitSize([w, h], land);
+      var path = d3.geoPath(proj);
+      var svg = d3.select(el).append('svg').attr('viewBox', '0 0 ' + w + ' ' + h).attr('aria-hidden', 'true');
+      svg.selectAll('path').data(land.features).join('path').attr('d', path)
+        .attr('class', function (d) {
+          var id = String(d.id).padStart(3, '0');
+          return 'land' + (home.indexOf(id) > -1 ? ' home' : trials.indexOf(id) > -1 ? ' trial' : earlier.indexOf(id) > -1 ? ' earlier' : '');
+        });
+    }).catch(function () { el.style.minHeight = '0'; });
+  })();
 </script>
 </body>
 </html>
